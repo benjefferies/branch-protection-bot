@@ -28,7 +28,7 @@ if __name__ == '__main__':
     p.add_argument('-t', '--access-token', env_var='ACCESS_TOKEN', required=True, help='Github access token. https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line')
     p.add_argument('-o', '--owner', env_var='OWNER', required=True, help='Owner. For example benjefferies for https://github.com/benjefferies/branch-protection-bot')
     p.add_argument('-r', '--repo', env_var='REPO', required=True, help='Repo. For example branch-protection-bot for https://github.com/benjefferies/branch-protection-bot')
-    p.add_argument('-b', '--branch', env_var='BRANCH', required=True, help='Branch name')
+    p.add_argument('-b', '--branch', env_var='BRANCH', default='master', help='Branch name')
 
     options = p.parse_args()
     toggle_enforce_admin(options.access_token, options.owner, options.repo, options.branch)
