@@ -3,6 +3,7 @@ import os
 from github3 import login
 import configargparse
 from github3.exceptions import NotFoundError
+from github3.repos.branch import ProtectionEnforceAdmins
 
 
 def toggle_enforce_admin(access_token, owner, repo_name, branch_name):
@@ -18,9 +19,9 @@ def toggle_enforce_admin(access_token, owner, repo_name, branch_name):
     print(f"Is admin branch protection enabled? {protection.enforce_admins.enabled}")
     print(f"Setting admin branch protection enabled to {not protection.enforce_admins.enabled}")
     if protection.enforce_admins.enabled:
-        protection.update(enforce_admins=False)
+        protection.enforce_admins.disable()
     else:
-        protection.update(enforce_admins=True)
+        protection.enforce_admins.enable()
 
 
 if __name__ == '__main__':
