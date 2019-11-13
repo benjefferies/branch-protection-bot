@@ -3,7 +3,6 @@ import os
 from github3 import login
 import configargparse
 from github3.exceptions import NotFoundError
-from github3.repos.branch import ProtectionEnforceAdmins
 
 
 def toggle_enforce_admin(access_token, owner, repo_name, branch_name):
