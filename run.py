@@ -1,8 +1,9 @@
-import os
+#!/usr/bin/env python
+
 from time import sleep
 
-from github3 import login
 import configargparse
+from github3 import login
 from github3.exceptions import NotFoundError, GitHubException
 
 
