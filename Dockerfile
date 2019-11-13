@@ -6,7 +6,9 @@ ENV PYTHONUSERBASE $PYROOT
 
 FROM base AS builder
 
-RUN pip install pipenv
+RUN pip install pipenv && \
+    apt-get update -y && \
+    apt-get install -y git
 
 COPY Pipfile* ./
 
