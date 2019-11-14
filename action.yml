@@ -24,6 +24,7 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
+    - run.py
     - --access-token ${{ inputs.access-token }}
     - --owner ${{ inputs.owner }}
     - --repo ${{ inputs.repo }}
