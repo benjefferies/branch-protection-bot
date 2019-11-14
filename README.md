@@ -14,9 +14,34 @@ The intended use of this tool is to is in a CI/CD pipeline where you require tem
 1. After you push to github you run this tool to enable `Include administrators`
 
 ## Example usage
+### Docker
 ```
 docker run -e ACCESS_TOKEN=abc123 -e BRANCH=master -e REPO=branch-protection-bot -e OWNER=benjefferies benjjefferies/branch-protection-bot
 ```
+
+### Github Actions
+
+#### Inputs
+
+##### `access-token`
+
+**Required** Github access token. https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line
+
+##### `owner`
+
+**Required** Owner. For example benjefferies for https://github.com/benjefferies/branch-protection-bot
+
+##### `repo`
+
+**Required** Repo. For example branch-protection-bot for https://github.com/benjefferies/branch-protection-bot
+
+##### `branch`
+
+Branch name. Default `"Master"`
+
+##### `retries`
+
+Number of times to retry before exiting. Default `5`.
 
 ## Github repository settings
 The Bot account must be in the `Restrict who can push to matching branches` list.

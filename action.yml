@@ -1,0 +1,31 @@
+# action.yml
+name: 'Branch Protection Bot'
+description: 'A bot tool to temporarily disable and re-enable "Include administrators" option in branch protection'
+inputs:
+  access-token:
+    description: 'Github access token. https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line'
+    required: true
+  owner:
+    description: 'Owner. For example benjefferies for https://github.com/benjefferies/branch-protection-bot'
+    required: true
+  repo:
+    description: 'Repo. For example branch-protection-bot for https://github.com/benjefferies/branch-protection-bot'
+    required: true
+  branch:
+    description: 'Branch name'
+    required: false
+    default: 'master'
+  retries:
+    description: 'Number of times to retry before exiting'
+    required: false
+    default: 5
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - --access-token ${{ inputs.access-token }}
+    - --owner ${{ inputs.owner }}
+    - --repo ${{ inputs.repo }}
+    - --branch ${{ inputs.branch }}
+    - --retries ${{ inputs.retries }}
