@@ -23,10 +23,9 @@ inputs:
 runs:
   using: 'docker'
   image: 'Dockerfile'
-  args:
-    - run.py
-    - --access-token ${{ inputs.access-token }}
-    - --owner ${{ inputs.owner }}
-    - --repo ${{ inputs.repo }}
-    - --branch ${{ inputs.branch }}
-    - --retries ${{ inputs.retries }}
+  env:
+    ACCESS_TOKEN: ${{ inputs.access-token }}
+    OWNER: ${{ inputs.owner }}
+    REPO: ${{ inputs.repo }}
+    BRANCH: ${{ inputs.branch }}
+    RETRIES: ${{ inputs.retries }}
