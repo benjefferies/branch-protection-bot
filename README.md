@@ -37,7 +37,7 @@ docker run -e ACCESS_TOKEN=abc123 -e BRANCH=master -e REPO=branch-protection-bot
 
 ##### `branch`
 
-Branch name. Default `"Master"`
+Branch name. Default `"master"`
 
 ##### `retries`
 
