@@ -44,4 +44,4 @@ if __name__ == '__main__':
     p.add_argument('--retries', env_var='RETRIES', default=5, help='Number of times to retry before exiting')
 
     options = p.parse_args()
-    toggle_enforce_admin(options.access_token, options.owner, options.repo, options.branch, options.retries)
+    toggle_enforce_admin(options.access_token, options.owner, options.repo, options.branch, int(options.retries))
