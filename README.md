@@ -29,6 +29,19 @@ docker run -e ACCESS_TOKEN=abc123 -e BRANCH=master -e REPO=branch-protection-bot
     access-token: ${{ secrets.ACCESS_TOKEN }}
     owner: benjefferies
     repo: branch-protection-bot
+    
+- name: Deploy
+  run: |
+    mvn release:prepare -B
+    mvn release:perform -B
+   
+- name: Enable "include administrators" branch protection
+  uses: benjefferies/branch-protection-bot@master
+  if: always()  # Force to always run this step to ensure "include administrators" is always turned back on
+  with:
+    access-token: ${{ secrets.ACCESS_TOKEN }}
+    owner: benjefferies
+    repo: branch-protection-bot
 ```
 
 #### Inputs
