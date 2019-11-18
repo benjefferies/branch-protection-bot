@@ -1,0 +1,52 @@
+name: Python
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 3
+      matrix:
+        python-version: [3.5, 3.6, 3.7]
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+    - uses: dschep/install-pipenv-action@v1
+    - name: Install dependencies
+      run: |
+        pipenv install
+    - name: Lint with flake8
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        flake8 . --count --exit-zero --max-complexity=10 --statistics
+    - name: Test with pytest
+      run: pipenv run pytest
+    - name: Force disable "include administrators" branch protection
+      uses: benjefferies/branch-protection-bot@master
+      if: always()
+      with:
+        access-token: ${{ secrets.ACCESS_TOKEN }}
+        owner: benjefferies
+        repo: branch-protection-bot
+    - name: Toggle "include administrators" branch protection
+      uses: benjefferies/branch-protection-bot@master
+      if: always()
+      with:
+        access-token: ${{ secrets.ACCESS_TOKEN }}
+        owner: benjefferies
+        repo: branch-protection-bot
+    - name: Force enable "include administrators" branch protection
+      uses: benjefferies/branch-protection-bot@master
+      if: always()
+      with:
+        access-token: ${{ secrets.ACCESS_TOKEN }}
+        owner: benjefferies
+        repo: branch-protection-bot
