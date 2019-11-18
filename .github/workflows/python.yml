@@ -36,6 +36,7 @@ jobs:
         access-token: ${{ secrets.ACCESS_TOKEN }}
         owner: benjefferies
         repo: branch-protection-bot
+        enforce_admins: false
     - name: Toggle "include administrators" branch protection
       uses: benjefferies/branch-protection-bot@master
       if: always()
@@ -50,3 +51,4 @@ jobs:
         access-token: ${{ secrets.ACCESS_TOKEN }}
         owner: benjefferies
         repo: branch-protection-bot
+        enforce_admins: true
