@@ -71,4 +71,4 @@ Number of times to retry before exiting. Default `5`.
 If you want to pin the state of "Include administrators" for a step in the workflow.
 
 ## Github repository settings
-The Bot account must be in the `Restrict who can push to matching branches` list.
+The Bot account must be an administrator.
