@@ -8,8 +8,8 @@ from github3.exceptions import NotFoundError, GitHubException
 
 
 def toggle_enforce_admin(options):
-    access_token, owner, repo_name, branch_name, retries = options['access_token'], options['owner'], options['repo'], options['branch'], int(options['retries'])
-    enforce_admins = bool(strtobool(options['enforce_admins'])) if options['enforce_admins'] is not None and not options['enforce_admins'] == '' else None
+    access_token, owner, repo_name, branch_name, retries = options.access_token, options.owner, options.repo, options.branch, int(options.retries)
+    enforce_admins = bool(strtobool(options.enforce_admins)) if options.enforce_admins is not None and not options.enforce_admins == '' else None
     # or using an access token
     protection = get_protection(access_token, branch_name, owner, repo_name)
     print(f"Enforce admins branch protection enabled? {protection.enforce_admins.enabled}")
