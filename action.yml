@@ -1,6 +1,10 @@
 # action.yml
 name: 'Branch Protection Bot'
+author: https://github.com/benjefferies
 description: 'A bot tool to temporarily disable and re-enable "Include administrators" option in branch protection'
+branding:
+  color: blue
+  icon: unlock
 inputs:
   access-token:
     description: 'Github access token. https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line'
