@@ -8,9 +8,35 @@ from github3.exceptions import NotFoundError, GitHubException
 
 
 def toggle_enforce_admin(options):
-    access_token, owner, repo_name, branch_name, retries = options.access_token, options.owner, options.repo, options.branch, int(options.retries)
-    enforce_admins = bool(strtobool(options.enforce_admins)) if options.enforce_admins is not None and not options.enforce_admins == '' else None
+    access_token, owner, repo_name, branch_name, retries = options['access_token'], options['owner'], options['repo'], options['branch'], int(options['retries'])
+    enforce_admins = bool(strtobool(options['enforce_admins'])) if options['enforce_admins'] is not None and not options['enforce_admins'] == '' else None
     # or using an access token
+    protection = get_protection(access_token, branch_name, owner, repo_name)
+    print(f"Enforce admins branch protection enabled? {protection.enforce_admins.enabled}")
+    print(f"Setting enforce admins branch protection to {enforce_admins if enforce_admins is not None else not protection.enforce_admins.enabled}")
+    for i in range(retries):
+        try:
+            if enforce_admins is False:
+                disable(protection)
+                return
+            elif enforce_admins is True:
+                enable(protection)
+                return
+            elif protection.enforce_admins.enabled:
+                disable(protection)
+                return
+            elif not protection.enforce_admins.enabled:
+                enable(protection)
+                return
+        except GitHubException:
+            print(f"Failed to set enforce admins to {not protection.enforce_admins.enabled}. Retrying...")
+            sleep(i ** 2)  # Exponential back-off
+
+    print(f"Failed to set enforce admins to {not protection.enforce_admins.enabled}.")
+    exit(1)
+
+
+def get_protection(access_token, branch_name, owner, repo_name):
     gh = login(token=access_token)
     try:
         repo = gh.repository(owner, repo_name)
@@ -19,28 +45,15 @@ def toggle_enforce_admin(options):
         raise
     branch = repo.branch(branch_name)
     protection = branch.protection()
-    print(f"Enforce admins branch protection enabled? {protection.enforce_admins.enabled}")
-    print(f"Setting enforce admins branch protection to {enforce_admins if enforce_admins is not None else not protection.enforce_admins.enabled}")
-    for i in range(retries):
-        try:
-            if enforce_admins is False:
-                protection.enforce_admins.disable()
-                return
-            elif enforce_admins is True:
-                protection.enforce_admins.enable()
-                return
-            elif protection.enforce_admins.enabled:
-                protection.enforce_admins.disable()
-                return
-            elif not protection.enforce_admins.enabled:
-                protection.enforce_admins.enable()
-                return
-        except GitHubException:
-            print(f"Failed to set enforce admins to {not protection.enforce_admins.enabled}. Retrying...")
-            sleep(i ** 2)  # Exponential back-off
+    return protection
 
-    print(f"Failed to set enforce admins to {not protection.enforce_admins.enabled}.")
-    exit(1)
+
+def enable(protection):
+    protection.enforce_admins.enable()
+
+
+def disable(protection):
+    protection.enforce_admins.disable()
 
 
 if __name__ == '__main__':
