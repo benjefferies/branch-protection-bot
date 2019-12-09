@@ -30,7 +30,7 @@ class TestRun(unittest.TestCase):
         options = DotDict({
             'retries': 1,
             'enforce_admins': 'true',
-            'GITHUB_REPOSITORY': 'benjefferies/branch-bot-protection'
+            'github_repository': 'benjefferies/branch-bot-protection'
         })
 
         # When
@@ -52,7 +52,7 @@ class TestRun(unittest.TestCase):
         options = DotDict({
             'retries': 1,
             'enforce_admins': 'false',
-            'GITHUB_REPOSITORY': 'benjefferies/branch-bot-protection'
+            'github_repository': 'benjefferies/branch-bot-protection'
         })
 
         # When
@@ -67,7 +67,7 @@ class TestRun(unittest.TestCase):
         options = DotDict({
             'retries': 1,
             'enforce_admins': 'false',
-            'GITHUB_REPOSITORY': 'benjefferies/branch-bot-protection'
+            'github_repository': 'benjefferies/branch-bot-protection'
         })
 
         # When
@@ -87,7 +87,7 @@ class TestRun(unittest.TestCase):
         # Given
         options = DotDict({
             'retries': 1,
-            'GITHUB_REPOSITORY': 'benjefferies/branch-bot-protection'
+            'github_repository': 'benjefferies/branch-bot-protection'
         })
 
         # When
@@ -107,7 +107,7 @@ class TestRun(unittest.TestCase):
         # Given
         options = DotDict({
             'retries': 1,
-            'GITHUB_REPOSITORY': 'benjefferies/branch-bot-protection'
+            'github_repository': 'benjefferies/branch-bot-protection'
         })
 
         # When
@@ -129,7 +129,7 @@ class TestRun(unittest.TestCase):
         options = DotDict({
             'retries': 1,
             'enforce_admins': 'true',
-            'GITHUB_REPOSITORY': 'benjefferies/branch-bot-protection'
+            'github_repository': 'benjefferies/branch-bot-protection'
         })
 
         # When
@@ -139,17 +139,18 @@ class TestRun(unittest.TestCase):
         enable.assert_called_once()
         login.return_value.repository.assert_called_once_with('benjefferies', 'branch-bot-protection')
 
-    @patch('run.login')
-    @patch('run.enable')
-    def test_should_error_when_no_github_repository_or_owner_and_repo(self, enable, login):
+    def test_should_error_when_no_github_repository_or_owner_and_repo(self):
         # Given
         options = DotDict({
             'retries': 1,
             'enforce_admins': 'true',
         })
 
-        # When/Then
-        self.assertRaises(RuntimeError, toggle_enforce_admin(options))
+        # When
+        to_error = lambda: toggle_enforce_admin(options)
+
+        # Then
+        self.assertRaises(RuntimeError, to_error)
 
 
 class DotDict(dict):
