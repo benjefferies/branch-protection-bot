@@ -52,11 +52,11 @@ docker run -e ACCESS_TOKEN=abc123 -e BRANCH=master -e REPO=branch-protection-bot
 
 ##### `owner`
 
-**Required** Owner. For example benjefferies for https://github.com/benjefferies/branch-protection-bot
+For example benjefferies for https://github.com/benjefferies/branch-protection-bot. If not set with repo GITHUB_REPOSITORY variable will be used
 
 ##### `repo`
 
-**Required** Repo. For example branch-protection-bot for https://github.com/benjefferies/branch-protection-bot
+For example branch-protection-bot for https://github.com/benjefferies/branch-protection-bot. If not set with repo GITHUB_REPOSITORY variable will be used
 
 ##### `branch`
 
