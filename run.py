@@ -13,7 +13,7 @@ def toggle_enforce_admin(options):
         owner = github_repository.split("/")[0]
         repo_name = github_repository.split("/")[1]
 
-    if owner is '' or repo_name is '':
+    if owner == '' or repo_name == '':
         print('Owner and repo or GITHUB_REPOSITORY not set')
         raise RuntimeError
     enforce_admins = bool(strtobool(options.enforce_admins)) if options.enforce_admins is not None and not options.enforce_admins == '' else None
