@@ -6,17 +6,15 @@ from run import toggle_enforce_admin
 
 class TestRun(unittest.TestCase):
 
-    @patch('run.enable')
     @patch('run.login')
+    @patch('run.enable')
     def test_should_always_enable_force_admins(self, enable, login):
         # Given
         options = DotDict({
-            'access_token': '',
-            'repo': '',
-            'owner': '',
-            'branch': '',
             'retries': 1,
             'enforce_admins': 'true',
+            'owner': 'benjefferies',
+            'repo': 'branch-bot-protection',
         })
 
         # When
@@ -24,17 +22,15 @@ class TestRun(unittest.TestCase):
 
         # Then
         enable.assert_called_once()
+        login.return_value.repository.assert_called_once_with('benjefferies', 'branch-bot-protection')
 
     @patch('run.enable')
     def test_should_always_enable_force_admins_when_enabled(self, enable):
         # Given
         options = DotDict({
-            'access_token': '',
-            'repo': '',
-            'owner': '',
-            'branch': '',
             'retries': 1,
             'enforce_admins': 'true',
+            'GITHUB_REPOSITORY': 'benjefferies/branch-bot-protection'
         })
 
         # When
@@ -49,17 +45,14 @@ class TestRun(unittest.TestCase):
         # Then
         enable.assert_called_once()
 
-    @patch('run.disable')
     @patch('run.login')
+    @patch('run.disable')
     def test_should_always_disable_force_admins(self, disable, login):
         # Given
         options = DotDict({
-            'access_token': '',
-            'repo': '',
-            'owner': '',
-            'branch': '',
             'retries': 1,
             'enforce_admins': 'false',
+            'GITHUB_REPOSITORY': 'benjefferies/branch-bot-protection'
         })
 
         # When
@@ -72,12 +65,9 @@ class TestRun(unittest.TestCase):
     def test_should_always_disable_force_admins_when_disabled(self, disable):
         # Given
         options = DotDict({
-            'access_token': '',
-            'repo': '',
-            'owner': '',
-            'branch': '',
             'retries': 1,
             'enforce_admins': 'false',
+            'GITHUB_REPOSITORY': 'benjefferies/branch-bot-protection'
         })
 
         # When
@@ -96,12 +86,8 @@ class TestRun(unittest.TestCase):
     def test_should_disable_force_admins(self, disable):
         # Given
         options = DotDict({
-            'access_token': '',
-            'repo': '',
-            'owner': '',
-            'branch': '',
             'retries': 1,
-            'enforce_admins': '',
+            'GITHUB_REPOSITORY': 'benjefferies/branch-bot-protection'
         })
 
         # When
@@ -120,12 +106,8 @@ class TestRun(unittest.TestCase):
     def test_should_enable_force_admins(self, enable):
         # Given
         options = DotDict({
-            'access_token': '',
-            'repo': '',
-            'owner': '',
-            'branch': '',
             'retries': 1,
-            'enforce_admins': '',
+            'GITHUB_REPOSITORY': 'benjefferies/branch-bot-protection'
         })
 
         # When
@@ -140,10 +122,39 @@ class TestRun(unittest.TestCase):
         # Then
         enable.assert_called_once()
 
+    @patch('run.login')
+    @patch('run.enable')
+    def test_should_enable_force_admins_using_github_repository_environment_variables(self, enable, login):
+        # Given
+        options = DotDict({
+            'retries': 1,
+            'enforce_admins': 'true',
+            'GITHUB_REPOSITORY': 'benjefferies/branch-bot-protection'
+        })
+
+        # When
+        toggle_enforce_admin(options)
+
+        # Then
+        enable.assert_called_once()
+        login.return_value.repository.assert_called_once_with('benjefferies', 'branch-bot-protection')
+
+    @patch('run.login')
+    @patch('run.enable')
+    def test_should_error_when_no_github_repository_or_owner_and_repo(self, enable, login):
+        # Given
+        options = DotDict({
+            'retries': 1,
+            'enforce_admins': 'true',
+        })
+
+        # When/Then
+        self.assertRaises(RuntimeError, toggle_enforce_admin(options))
+
 
 class DotDict(dict):
     def __getattr__(self, key):
-        return self[key]
+        return self[key] if key in self else ''
 
     def __setattr__(self, key, val):
         if key in self.__dict__:
