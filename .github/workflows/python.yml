@@ -30,18 +30,18 @@ jobs:
     - name: Test with pytest
       run: pipenv run pytest
     - name: Force disable "include administrators" branch protection
-      uses: benjefferies/branch-protection-bot@$GITHUB_SHA
+      uses: benjefferies/branch-protection-bot@${{ GITHUB_SHA }}
       if: always()
       with:
         access-token: ${{ secrets.ACCESS_TOKEN }}
         enforce_admins: false
     - name: Toggle "include administrators" branch protection
-      uses: benjefferies/branch-protection-bot@$GITHUB_SHA
+      uses: benjefferies/branch-protection-bot@${{ GITHUB_SHA }}
       if: always()
       with:
         access-token: ${{ secrets.ACCESS_TOKEN }}
     - name: Force enable "include administrators" branch protection
-      uses: benjefferies/branch-protection-bot@$GITHUB_SHA
+      uses: benjefferies/branch-protection-bot@${{ GITHUB_SHA }}
       if: always()
       with:
         access-token: ${{ secrets.ACCESS_TOKEN }}
