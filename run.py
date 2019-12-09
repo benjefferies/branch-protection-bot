@@ -38,6 +38,10 @@ def toggle_enforce_admin(options):
 
 def get_protection(access_token, branch_name, owner, repo_name):
     gh = login(token=access_token)
+    if gh is None:
+        print(f"Could not login. Have you provided credentials?")
+        raise exit(1)
+
     try:
         repo = gh.repository(owner, repo_name)
     except NotFoundError:
@@ -65,5 +69,4 @@ if __name__ == '__main__':
     p.add_argument('--retries', env_var='RETRIES', default=5, help='Number of times to retry before exiting')
     p.add_argument('--enforce_admins', env_var='ENFORCE_ADMINS', default=None, help='Flag to explicitly enable or disable "Include administrators"')
 
-    options = p.parse_args()
-    toggle_enforce_admin(options)
+    toggle_enforce_admin(p.parse_args())

@@ -12,4 +12,4 @@ configargparse = "*"
 github3-py = {git = "https://github.com/sigmavirus24/github3.py"}
 
 [requires]
-python_version = "3.6"
+python_version = "3.7.5"
