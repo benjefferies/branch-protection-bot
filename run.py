@@ -18,6 +18,7 @@ def toggle_enforce_admin(options):
         raise RuntimeError
     enforce_admins = bool(strtobool(options.enforce_admins)) if options.enforce_admins is not None and not options.enforce_admins == '' else None
     # or using an access token
+    print(f"Getting branch protection settings for {owner}/{repo_name}")
     protection = get_protection(access_token, branch_name, owner, repo_name)
     print(f"Enforce admins branch protection enabled? {protection.enforce_admins.enabled}")
     print(f"Setting enforce admins branch protection to {enforce_admins if enforce_admins is not None else not protection.enforce_admins.enabled}")
