@@ -10,11 +10,11 @@ inputs:
     description: 'Github access token. https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line'
     required: true
   owner:
-    description: 'Owner. For example benjefferies for https://github.com/benjefferies/branch-protection-bot'
-    required: true
+    description: 'For example benjefferies for https://github.com/benjefferies/branch-protection-bot. If not set with repo GITHUB_REPOSITORY variable will be used'
+    required: false
   repo:
-    description: 'Repo. For example branch-protection-bot for https://github.com/benjefferies/branch-protection-bot'
-    required: true
+    description: 'For example branch-protection-bot for https://github.com/benjefferies/branch-protection-bot. If not set with repo GITHUB_REPOSITORY variable will be used'
+    required: false
   branch:
     description: 'Branch name'
     required: false
