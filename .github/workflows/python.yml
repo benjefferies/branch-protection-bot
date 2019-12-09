@@ -41,7 +41,7 @@ jobs:
       with:
         access-token: ${{ secrets.ACCESS_TOKEN }}
     - name: Force enable "include administrators" branch protection
-      uses: benjefferies/branch-protection-bot$GITHUB_SHA
+      uses: benjefferies/branch-protection-bot@$GITHUB_SHA
       if: always()
       with:
         access-token: ${{ secrets.ACCESS_TOKEN }}
