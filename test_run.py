@@ -152,6 +152,25 @@ class TestRun(unittest.TestCase):
         # Then
         self.assertRaises(RuntimeError, to_error)
 
+    @patch('run.login')
+    @patch('run.enable')
+    def test_should_use_owner_repo_over_github_repository(self, enable, login):
+        # Given
+        options = DotDict({
+            'retries': 1,
+            'enforce_admins': 'true',
+            'owner': 'benjefferies',
+            'repo': 'branch-protection-bot',
+            'github_repository': 'other/repo'
+        })
+
+        # When
+        toggle_enforce_admin(options)
+
+        # Then
+        enable.assert_called_once()
+        login.return_value.repository.assert_called_once_with('benjefferies', 'branch-protection-bot')
+
 
 class DotDict(dict):
     def __getattr__(self, key):

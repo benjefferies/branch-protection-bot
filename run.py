@@ -9,7 +9,7 @@ from github3.exceptions import NotFoundError, GitHubException
 
 def toggle_enforce_admin(options):
     access_token, owner, repo_name, branch_name, retries, github_repository = options.access_token, options.owner, options.repo, options.branch, int(options.retries), options.github_repository
-    if github_repository is not None and "/" in github_repository:
+    if not owner and not repo_name and github_repository and "/" in github_repository:
         owner = github_repository.split("/")[0]
         repo_name = github_repository.split("/")[1]
 
