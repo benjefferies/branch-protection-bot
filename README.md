@@ -27,8 +27,6 @@ docker run -e ACCESS_TOKEN=abc123 -e BRANCH=master -e REPO=branch-protection-bot
   if: always()
   with:
     access-token: ${{ secrets.ACCESS_TOKEN }}
-    owner: benjefferies
-    repo: branch-protection-bot
     
 - name: Deploy
   run: |
