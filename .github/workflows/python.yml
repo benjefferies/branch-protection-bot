@@ -29,6 +29,15 @@ jobs:
         pipenv run flake8 . --count --exit-zero --max-complexity=10 --statistics
     - name: Test with pytest
       run: pipenv run pytest
+    - name: Test empty commit fails
+      run: |
+        set +e
+        git config --global user.email "bot@echosoft.uk"
+        git config --global user.name "Branch Protection Bot"
+        git commit --allow-empty -m "Testing commit to master works with temporary branch protection disable"
+        git checkout -b master-to-be
+        git push https://benjefferies:${{ secrets.ACCESS_TOKEN }}@github.com/benjefferies/branch-protection-bot.git master-to-be:master
+        [[ $exit_code == 0 ]] && echo "Expecting failure" && exit 1
     - name: Force disable "include administrators" branch protection
       uses: benjefferies/branch-protection-bot@master
       if: always()
