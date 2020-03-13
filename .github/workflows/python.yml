@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   build:
-
+    if: github.event_name == 'push' && contains(toJson(github.event.commits), '[ci]') == false
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 2
@@ -33,7 +33,7 @@ jobs:
       run: |
         git config --global user.email "bot@echosoft.uk"
         git config --global user.name "Branch Protection Bot"
-        git commit --allow-empty -m "Testing commit to master works with temporary branch protection disable"
+        git commit --allow-empty -m "[ci] Testing commit to master works with temporary branch protection disable"
         git checkout -b master-to-be
         git push https://benjefferies:${{ secrets.ACCESS_TOKEN }}@github.com/benjefferies/branch-protection-bot.git master-to-be:master || exit_code=$?
         [[ $exit_code == 0 ]] && echo "Expecting failure" && exit 1
@@ -47,7 +47,7 @@ jobs:
       run: |
         git config --global user.email "bot@echosoft.uk"
         git config --global user.name "Branch Protection Bot"
-        git commit --allow-empty -m "Testing commit to master works with temporary branch protection disable"
+        git commit --allow-empty -m "[ci] Testing commit to master works with temporary branch protection disable"
         git checkout -b master-to-be
         git pull origin master --ff-only
         git push https://benjefferies:${{ secrets.ACCESS_TOKEN }}@github.com/benjefferies/branch-protection-bot.git master-to-be:master
