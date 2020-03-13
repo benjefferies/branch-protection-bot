@@ -37,7 +37,10 @@ jobs:
         enforce_admins: false
     - name: Test empty commit
       run: |
+        git config --global user.email "bot@echosoft.uk"
+        git config --global user.name "Branch Protection Bot"
         git commit --allow-empty -m "Testing commit to master works with temporary branch protection disable"
+        git push origin master
     - name: Toggle "include administrators" branch protection
       uses: benjefferies/branch-protection-bot@master
       if: always()
