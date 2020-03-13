@@ -40,7 +40,7 @@ jobs:
         git config --global user.email "bot@echosoft.uk"
         git config --global user.name "Branch Protection Bot"
         git commit --allow-empty -m "Testing commit to master works with temporary branch protection disable"
-        git push https://benjefferies:${{ secrets.ACCESS_TOKEN }}@github.com/benjefferies/branch-protection-bot.git master
+        git push https://benjefferies:${{ secrets.ACCESS_TOKEN }}@github.com/benjefferies/branch-protection-bot.git --all
     - name: Toggle "include administrators" branch protection
       uses: benjefferies/branch-protection-bot@master
       if: always()
