@@ -35,7 +35,7 @@ jobs:
         git config --global user.name "Branch Protection Bot"
         git commit --allow-empty -m "[ci] Testing commit to master works with temporary branch protection disable"
         git checkout -b master-to-be
-        git push https://benjefferies:${{ secrets.ACCESS_TOKEN }}@github.com/benjefferies/branch-protection-bot.git master-to-be:master || exit_code=$?
+        (set +o pipefail && git push https://benjefferies:${{ secrets.ACCESS_TOKEN }}@github.com/benjefferies/branch-protection-bot.git master-to-be:master); exit_code=$?
         [[ $exit_code == 0 ]] && echo "Expecting failure" && exit 1
     - name: Force disable "include administrators" branch protection
       uses: benjefferies/branch-protection-bot@master
