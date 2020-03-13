@@ -37,7 +37,7 @@ jobs:
         enforce_admins: false
     - name: Test empty commit
       run: |
-        git commit --allow-empty "Testing commit to master works with temporary branch protection disable"
+        git commit --allow-empty -m "Testing commit to master works with temporary branch protection disable"
     - name: Toggle "include administrators" branch protection
       uses: benjefferies/branch-protection-bot@master
       if: always()
