@@ -6,7 +6,7 @@ ENV PYTHONUSERBASE $PYROOT
 
 FROM base AS builder
 
-RUN pip install pipenv && \
+RUN pip install 'pipenv==2018.11.26' && \
     apt-get update -y && \
     apt-get install -y git
 
