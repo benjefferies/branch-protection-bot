@@ -6,11 +6,13 @@ ENV PYTHONUSERBASE $PYROOT
 
 FROM base AS builder
 
-RUN pip install 'pipenv==2018.11.26' && \
+RUN pip install pipenv && \
     apt-get update -y && \
     apt-get install -y git
 
-COPY Pipfile* ./
+COPY Pipfile* /home/src/
+
+WORKDIR /home/src
 
 RUN PIP_USER=1 PIP_IGNORE_INSTALLED=1 pipenv install --system --deploy --ignore-pipfile
 
