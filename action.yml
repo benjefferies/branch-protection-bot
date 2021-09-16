@@ -27,7 +27,7 @@ inputs:
     description: 'Flag to explicitly enable or disable "Include administrators"'
     required: false
 outputs:
-  current-status:
+  initial-status:
     description: "Output the current branch protection status of 'Include administrators' prior to any change"
 
 runs:

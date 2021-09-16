@@ -23,7 +23,6 @@ docker run -e ACCESS_TOKEN=abc123 -e BRANCH=master -e REPO=branch-protection-bot
 
 ```
 - name: Temporarily disable "include administrators" branch protection
-  id: disable_include_admins
   uses: benjefferies/branch-protection-bot@master
   if: always()
   with:
@@ -73,10 +72,33 @@ If you want to pin the state of `Include administrators` for a step in the workf
 
 #### Outputs
 
-##### `current-status`
+##### `initial-status`
 
 Output the current branch protection status of `Include administrators` prior to any change.
-You can retrieve it from any next step in your job using: `${{ steps.disable_include_admins.outputs.current-status }}`.
+You can retrieve it from any next step in your job using: `${{ steps.disable_include_admins.outputs.initial-status }}`.
+This would help you to restore the initial setting this way:
+
+```yaml
+steps:
+    - name: "Temporarily disable 'include administrators' default branch protection"
+    id: disable_include_admins
+    uses: benjefferies/branch-protection-bot@master
+    if: always()
+    with:
+        access-token: ${{ secrets.ACCESS_TOKEN }}
+        branch: ${{ github.event.repository.default_branch }}
+        enforce-admins: false
+    
+    - ...
+
+    - name: "Restore 'include administrators' default branch protection"
+    uses: benjefferies/branch-protection-bot@master
+    if: always() # Force to always run this step to ensure "include administrators" is always turned back on
+    with:
+        access-token: ${{ secrets.ACCESS_TOKEN }}
+        branch: ${{ github.event.repository.default_branch }}
+        enforce-admins: ${{ steps.disable_include_admins.outputs.initial-status }}
+```
 
 ## Github repository settings
 The Bot account must be an administrator.
