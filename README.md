@@ -1,5 +1,5 @@
 # Branch Protection Bot
-A bot tool to temporarily disable and re-enable "Include administrators" option in branch protection
+A bot tool to temporarily disable and re-enable `Include administrators` option in branch protection
 
 Github doesn't have a way to give a Bot access to override the branch protection, specifically if you [include administrators](https://github.com/isaacs/github/issues/1390).
 The only possible solution is to disable the `include administrators` option. This increases risk of accidental pushes to master from administrators (I've done it a few times).
@@ -23,6 +23,7 @@ docker run -e ACCESS_TOKEN=abc123 -e BRANCH=master -e REPO=branch-protection-bot
 
 ```
 - name: Temporarily disable "include administrators" branch protection
+  id: disable_include_admins
   uses: benjefferies/branch-protection-bot@master
   if: always()
   with:
@@ -68,7 +69,14 @@ Number of times to retry before exiting. Default `5`.
 
 ##### `enforce_admins`
 
-If you want to pin the state of "Include administrators" for a step in the workflow.
+If you want to pin the state of `Include administrators` for a step in the workflow.
+
+#### Outputs
+
+##### `current-status`
+
+Output the current branch protection status of `Include administrators` prior to any change.
+You can retrieve it from any next step in your job using: `${{ steps.disable_include_admins.outputs.current-status }}`.
 
 ## Github repository settings
 The Bot account must be an administrator.

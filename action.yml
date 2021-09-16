@@ -26,6 +26,9 @@ inputs:
   enforce_admins:
     description: 'Flag to explicitly enable or disable "Include administrators"'
     required: false
+outputs:
+  current-status:
+    description: "Output the current branch protection status of 'Include administrators' prior to any change"
 
 runs:
   using: 'docker'
