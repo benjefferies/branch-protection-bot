@@ -27,6 +27,7 @@ docker run -e ACCESS_TOKEN=abc123 -e BRANCH=master -e REPO=branch-protection-bot
   if: always()
   with:
     access-token: ${{ secrets.ACCESS_TOKEN }}
+    branch: ${{ github.event.repository.default_branch }}
     
 - name: Deploy
   run: |
@@ -40,6 +41,7 @@ docker run -e ACCESS_TOKEN=abc123 -e BRANCH=master -e REPO=branch-protection-bot
     access-token: ${{ secrets.ACCESS_TOKEN }}
     owner: benjefferies
     repo: branch-protection-bot
+    branch: ${{ github.event.repository.default_branch }}
 ```
 
 #### Inputs
