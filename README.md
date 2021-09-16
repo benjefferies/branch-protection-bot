@@ -26,7 +26,7 @@ docker run -e ACCESS_TOKEN=abc123 -e BRANCH=master -e REPO=branch-protection-bot
   uses: benjefferies/branch-protection-bot@master
   if: always()
   with:
-    access-token: ${{ secrets.ACCESS_TOKEN }}
+    access_token: ${{ secrets.ACCESS_TOKEN }}
     branch: ${{ github.event.repository.default_branch }}
     
 - name: Deploy
@@ -38,7 +38,7 @@ docker run -e ACCESS_TOKEN=abc123 -e BRANCH=master -e REPO=branch-protection-bot
   uses: benjefferies/branch-protection-bot@master
   if: always()  # Force to always run this step to ensure "include administrators" is always turned back on
   with:
-    access-token: ${{ secrets.ACCESS_TOKEN }}
+    access_token: ${{ secrets.ACCESS_TOKEN }}
     owner: benjefferies
     repo: branch-protection-bot
     branch: ${{ github.event.repository.default_branch }}
@@ -46,7 +46,7 @@ docker run -e ACCESS_TOKEN=abc123 -e BRANCH=master -e REPO=branch-protection-bot
 
 #### Inputs
 
-##### `access-token`
+##### `access_token`
 
 **Required** Github access token. https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line. Requires full repository access scope
 
@@ -66,16 +66,16 @@ Branch name. Default `"master"`
 
 Number of times to retry before exiting. Default `5`.
 
-##### `enforce-admins`
+##### `enforce_admins`
 
 If you want to pin the state of `Include administrators` for a step in the workflow.
 
 #### Outputs
 
-##### `initial-status`
+##### `initial_status`
 
 Output the current branch protection status of `Include administrators` prior to any change.
-You can retrieve it from any next step in your job using: `${{ steps.disable_include_admins.outputs.initial-status }}`.
+You can retrieve it from any next step in your job using: `${{ steps.disable_include_admins.outputs.initial_status }}`.
 This would help you to restore the initial setting this way:
 
 ```yaml
@@ -85,9 +85,9 @@ steps:
     uses: benjefferies/branch-protection-bot@master
     if: always()
     with:
-        access-token: ${{ secrets.ACCESS_TOKEN }}
+        access_token: ${{ secrets.ACCESS_TOKEN }}
         branch: ${{ github.event.repository.default_branch }}
-        enforce-admins: false
+        enforce_admins: false
     
     - ...
 
@@ -95,9 +95,9 @@ steps:
     uses: benjefferies/branch-protection-bot@master
     if: always() # Force to always run this step to ensure "include administrators" is always turned back on
     with:
-        access-token: ${{ secrets.ACCESS_TOKEN }}
+        access_token: ${{ secrets.ACCESS_TOKEN }}
         branch: ${{ github.event.repository.default_branch }}
-        enforce-admins: ${{ steps.disable_include_admins.outputs.initial-status }}
+        enforce_admins: ${{ steps.disable_include_admins.outputs.initial_status }}
 ```
 
 ## Github repository settings
