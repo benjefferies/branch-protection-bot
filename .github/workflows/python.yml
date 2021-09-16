@@ -34,7 +34,7 @@ jobs:
       if: always()
       with:
         access-token: ${{ secrets.ACCESS_TOKEN }}
-        enforce_admins: false
+        enforce-admins: false
     - name: Test empty commit
       run: |
         git config --global user.email "bot@echosoft.uk"
@@ -52,4 +52,4 @@ jobs:
       if: always()
       with:
         access-token: ${{ secrets.ACCESS_TOKEN }}
-        enforce_admins: true
+        enforce-admins: true

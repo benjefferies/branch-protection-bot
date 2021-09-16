@@ -67,7 +67,7 @@ Branch name. Default `"master"`
 
 Number of times to retry before exiting. Default `5`.
 
-##### `enforce_admins`
+##### `enforce-admins`
 
 If you want to pin the state of `Include administrators` for a step in the workflow.
 

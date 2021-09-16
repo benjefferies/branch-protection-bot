@@ -23,7 +23,7 @@ inputs:
     description: 'Number of times to retry before exiting'
     required: false
     default: 5
-  enforce_admins:
+  enforce-admins:
     description: 'Flag to explicitly enable or disable "Include administrators"'
     required: false
 outputs:
@@ -39,4 +39,4 @@ runs:
     REPO: ${{ inputs.repo }}
     BRANCH: ${{ inputs.branch }}
     RETRIES: ${{ inputs.retries }}
-    ENFORCE_ADMINS: ${{ inputs.enforce_admins }}
+    ENFORCE_ADMINS: ${{ inputs.enforce-admins }}
