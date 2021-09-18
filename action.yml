@@ -6,7 +6,7 @@ branding:
   color: blue
   icon: unlock
 inputs:
-  access-token:
+  access_token:
     description: 'Github access token. https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line'
     required: true
   owner:
@@ -26,12 +26,15 @@ inputs:
   enforce_admins:
     description: 'Flag to explicitly enable or disable "Include administrators"'
     required: false
+outputs:
+  initial_status:
+    description: "Output the current branch protection status of 'Include administrators' prior to any change"
 
 runs:
   using: 'docker'
   image: 'Dockerfile'
   env:
-    ACCESS_TOKEN: ${{ inputs.access-token }}
+    ACCESS_TOKEN: ${{ inputs.access_token }}
     OWNER: ${{ inputs.owner }}
     REPO: ${{ inputs.repo }}
     BRANCH: ${{ inputs.branch }}

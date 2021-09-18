@@ -1,5 +1,5 @@
 # Branch Protection Bot
-A bot tool to temporarily disable and re-enable "Include administrators" option in branch protection
+A bot tool to temporarily disable and re-enable `Include administrators` option in branch protection
 
 Github doesn't have a way to give a Bot access to override the branch protection, specifically if you [include administrators](https://github.com/isaacs/github/issues/1390).
 The only possible solution is to disable the `include administrators` option. This increases risk of accidental pushes to master from administrators (I've done it a few times).
@@ -26,7 +26,7 @@ docker run -e ACCESS_TOKEN=abc123 -e BRANCH=master -e REPO=branch-protection-bot
   uses: benjefferies/branch-protection-bot@master
   if: always()
   with:
-    access-token: ${{ secrets.ACCESS_TOKEN }}
+    access_token: ${{ secrets.ACCESS_TOKEN }}
     branch: ${{ github.event.repository.default_branch }}
     
 - name: Deploy
@@ -38,7 +38,7 @@ docker run -e ACCESS_TOKEN=abc123 -e BRANCH=master -e REPO=branch-protection-bot
   uses: benjefferies/branch-protection-bot@master
   if: always()  # Force to always run this step to ensure "include administrators" is always turned back on
   with:
-    access-token: ${{ secrets.ACCESS_TOKEN }}
+    access_token: ${{ secrets.ACCESS_TOKEN }}
     owner: benjefferies
     repo: branch-protection-bot
     branch: ${{ github.event.repository.default_branch }}
@@ -46,7 +46,7 @@ docker run -e ACCESS_TOKEN=abc123 -e BRANCH=master -e REPO=branch-protection-bot
 
 #### Inputs
 
-##### `access-token`
+##### `access_token`
 
 **Required** Github access token. https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line. Requires full repository access scope
 
@@ -68,7 +68,37 @@ Number of times to retry before exiting. Default `5`.
 
 ##### `enforce_admins`
 
-If you want to pin the state of "Include administrators" for a step in the workflow.
+If you want to pin the state of `Include administrators` for a step in the workflow.
+
+#### Outputs
+
+##### `initial_status`
+
+Output the current branch protection status of `Include administrators` prior to any change.
+You can retrieve it from any next step in your job using: `${{ steps.disable_include_admins.outputs.initial_status }}`.
+This would help you to restore the initial setting this way:
+
+```yaml
+steps:
+    - name: "Temporarily disable 'include administrators' default branch protection"
+    id: disable_include_admins
+    uses: benjefferies/branch-protection-bot@master
+    if: always()
+    with:
+        access_token: ${{ secrets.ACCESS_TOKEN }}
+        branch: ${{ github.event.repository.default_branch }}
+        enforce_admins: false
+    
+    - ...
+
+    - name: "Restore 'include administrators' default branch protection"
+    uses: benjefferies/branch-protection-bot@master
+    if: always() # Force to always run this step to ensure "include administrators" is always turned back on
+    with:
+        access_token: ${{ secrets.ACCESS_TOKEN }}
+        branch: ${{ github.event.repository.default_branch }}
+        enforce_admins: ${{ steps.disable_include_admins.outputs.initial_status }}
+```
 
 ## Github repository settings
 The Bot account must be an administrator.

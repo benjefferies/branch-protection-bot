@@ -21,6 +21,8 @@ def toggle_enforce_admin(options):
     print(f"Getting branch protection settings for {owner}/{repo_name}")
     protection = get_protection(access_token, branch_name, owner, repo_name)
     print(f"Enforce admins branch protection enabled? {protection.enforce_admins.enabled}")
+    # save the current status for use later on if desired
+    print(f"::set-output name=initial_status::{protection.enforce_admins.enabled}")
     print(f"Setting enforce admins branch protection to {enforce_admins if enforce_admins is not None else not protection.enforce_admins.enabled}")
     for i in range(retries):
         try:
@@ -76,6 +78,6 @@ if __name__ == '__main__':
     p.add_argument('--github_repository', env_var='GITHUB_REPOSITORY', required=False, default='', help='Owner and repo. For example benjefferies/branch-protection-bot for https://github.com/benjefferies/branch-protection-bot')
     p.add_argument('-b', '--branch', env_var='BRANCH', default='master', help='Branch name')
     p.add_argument('--retries', env_var='RETRIES', default=5, help='Number of times to retry before exiting')
-    p.add_argument('--enforce_admins', env_var='ENFORCE_ADMINS', default=None, help='Flag to explicitly enable or disable "Include administrators"')
+    p.add_argument('--enforce-admins', env_var='ENFORCE_ADMINS', default=None, help='Flag to explicitly enable or disable "Include administrators"')
 
     toggle_enforce_admin(p.parse_args())
