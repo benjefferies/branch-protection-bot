@@ -7,6 +7,8 @@ This tool doesn't completely solve the problem of accidents happening but reduce
 
 The intended use of this tool is to is in a CI/CD pipeline where you require temporary access to allow a administrator Bot push to a branch.
 
+[Tutorial](https://www.turfemon.com/bump-version-protected-branch-github-actions)
+
 ## How it works
 1. Your automated pipeline is kicked off
 1. Before you push to github you run this tool to disable `Include administrators`
