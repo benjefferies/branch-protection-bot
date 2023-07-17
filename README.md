@@ -50,7 +50,7 @@ docker run -e ACCESS_TOKEN=abc123 -e BRANCH=master -e REPO=branch-protection-bot
 
 ##### `access_token`
 
-**Required** Github access token. https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line. Requires full repository access scope
+**Required** Github access token. https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line. See [issue](https://github.com/benjefferies/branch-protection-bot/issues/9#issuecomment-1637223088) for required permissions
 
 ##### `owner`
 
