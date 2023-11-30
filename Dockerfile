@@ -6,9 +6,10 @@ ENV PYTHONUSERBASE $PYROOT
 
 FROM base AS builder
 
-RUN pip install pipenv==2020.8.13 && \
+RUN pip install pipenv && \
     apt-get update -y && \
-    apt-get install -y git
+    apt-get install -y git && \
+    rm -rf /var/lib/apt/lists/*
 
 COPY Pipfile* /home/src/
 
