@@ -11,6 +11,7 @@ pytest = "*"
 configargparse = "*"
 github3-py = {git = "https://github.com/sigmavirus24/github3.py"}
 typing-extensions = "*"
+certifi = "*"
 
 [requires]
 python_version = "3.12"
