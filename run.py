@@ -64,7 +64,7 @@ def get_protection(access_token, branch_name, owner, repo_name):
         protection = branch.protection()
         return protection
     except NotFoundError:
-        print(f"Could not find branch {branch_name} in repo")
+        print(f"Could not find branch protection for {owner}/{repo_name}/{branch_name}")
 
 
 def strtobool(val):
