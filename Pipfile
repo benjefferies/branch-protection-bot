@@ -10,7 +10,7 @@ requests = "*"
 
 [packages]
 configargparse = "*"
-github3-py = {git = "https://github.com/sigmavirus24/github3.py"}
+github3-py = "*"
 typing-extensions = "*"
 certifi = "*"
 
