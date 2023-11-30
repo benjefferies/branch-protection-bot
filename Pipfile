@@ -10,6 +10,7 @@ pytest = "*"
 [packages]
 configargparse = "*"
 github3-py = {git = "https://github.com/sigmavirus24/github3.py"}
+typing-extensions = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "3.12"
