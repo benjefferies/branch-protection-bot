@@ -147,7 +147,8 @@ class TestRun(unittest.TestCase):
         })
 
         # When
-        to_error = lambda: toggle_enforce_admin(options)
+        def to_error():
+            toggle_enforce_admin(options)
 
         # Then
         self.assertRaises(RuntimeError, to_error)

@@ -6,23 +6,6 @@ from github3 import login
 from github3.exceptions import NotFoundError, GitHubException
 
 
-def strtobool(val):
-    """
-    Convert a string representation of truth to True or False.
-
-    True values are 'y', 'yes', 't', 'true', 'on', and '1'; false values
-    are 'n', 'no', 'f', 'false', 'off', and '0'. Raises ValueError if
-    'val' is anything else.
-    """
-    val = val.lower()
-    if val in ('y', 'yes', 't', 'true', 'on', '1'):
-        return True
-    elif val in ('n', 'no', 'f', 'false', 'off', '0'):
-        return False
-    else:
-        raise ValueError(f"Invalid truth value {val}")
-
-
 def toggle_enforce_admin(options):
     access_token, owner, repo_name, branch_name, retries, github_repository = options.access_token, options.owner, options.repo, options.branch, int(options.retries), options.github_repository
     if not owner and not repo_name and github_repository and "/" in github_repository:
@@ -36,6 +19,10 @@ def toggle_enforce_admin(options):
     # or using an access token
     print(f"Getting branch protection settings for {owner}/{repo_name}")
     protection = get_protection(access_token, branch_name, owner, repo_name)
+    if protection is None:
+        print("Branch is not protected. Skipping")
+        return
+
     print(f"Enforce admins branch protection enabled? {protection.enforce_admins.enabled}")
     # save the current status for use later on if desired
     print(f"\"name=initial_status::{protection.enforce_admins.enabled}\" >> $GITHUB_OUTPUT")
@@ -65,8 +52,7 @@ def toggle_enforce_admin(options):
 def get_protection(access_token, branch_name, owner, repo_name):
     gh = login(token=access_token)
     if gh is None:
-        print(f"Could not login. Have you provided credentials?")
-        raise exit(1)
+        raise RuntimeError("Could not login. Have you provided credentials?")
 
     try:
         repo = gh.repository(owner, repo_name)
@@ -74,8 +60,28 @@ def get_protection(access_token, branch_name, owner, repo_name):
         print(f"Could not find repo https://github.com/{owner}/{repo_name}")
         raise
     branch = repo.branch(branch_name)
-    protection = branch.protection()
-    return protection
+    try:
+        protection = branch.protection()
+        return protection
+    except NotFoundError:
+        print(f"Could not find branch {branch_name} in repo")
+
+
+def strtobool(val):
+    """
+    Convert a string representation of truth to True or False.
+
+    True values are 'y', 'yes', 't', 'true', 'on', and '1'; false values
+    are 'n', 'no', 'f', 'false', 'off', and '0'. Raises ValueError if
+    'val' is anything else.
+    """
+    val = val.lower()
+    if val in ('y', 'yes', 't', 'true', 'on', '1'):
+        return True
+    elif val in ('n', 'no', 'f', 'false', 'off', '0'):
+        return False
+    else:
+        raise ValueError(f"Invalid truth value {val}")
 
 
 def enable(protection):
