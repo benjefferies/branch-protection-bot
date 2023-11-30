@@ -32,7 +32,7 @@ jobs:
     - name: Test with pytest
       run: pipenv run pytest
     - name: Force disable "include administrators" branch protection
-      uses: benjefferies/branch-protection-bot@master
+      uses: ./
       if: always()
       with:
         access_token: ${{ secrets.ACCESS_TOKEN }}
@@ -45,12 +45,12 @@ jobs:
         git checkout -b master-to-be
         git push https://benjefferies:${{ secrets.ACCESS_TOKEN }}@github.com/benjefferies/branch-protection-bot.git master-to-be:master
     - name: Toggle "include administrators" branch protection
-      uses: benjefferies/branch-protection-bot@master
+      uses: ./
       if: always()
       with:
         access_token: ${{ secrets.ACCESS_TOKEN }}
     - name: Force enable "include administrators" branch protection
-      uses: benjefferies/branch-protection-bot@master
+      uses: ./
       if: always()
       with:
         access_token: ${{ secrets.ACCESS_TOKEN }}
