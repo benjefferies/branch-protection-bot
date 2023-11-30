@@ -7,6 +7,7 @@ ENV PYTHONUSERBASE $PYROOT
 FROM base AS builder
 
 RUN pip install pipenv && \
+    pip install certifi && \
     apt-get update -y && \
     apt-get install -y git && \
     rm -rf /var/lib/apt/lists/*
