@@ -2,6 +2,10 @@ name: Python
 
 on: [push]
 
+permissions:
+  repository-projects: write
+  contents: write
+
 jobs:
   build:
     if: github.event_name == 'push' && contains(toJson(github.event.commits), '[ci]') == false
