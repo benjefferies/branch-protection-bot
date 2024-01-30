@@ -2,8 +2,6 @@ name: Python
 
 on: [push]
 
-permissions: write-all
-
 jobs:
   build:
     if: github.event_name == 'push' && contains(toJson(github.event.commits), '[ci]') == false
@@ -37,7 +35,7 @@ jobs:
       uses: ./
       if: always()
       with:
-        access_token: ${{ secrets.ACCESS_TOKEN }}
+        access_token: ${{ secrets.PAT_ACCESS_TOKEN }}
         enforce_admins: false
     - name: Test empty commit
       run: |
@@ -45,15 +43,15 @@ jobs:
         git config --global user.name "Branch Protection Bot"
         git commit --allow-empty -m "[ci] Testing commit to master works with temporary branch protection disable"
         git checkout -b master-to-be
-        git push https://benjefferies:${{ secrets.ACCESS_TOKEN }}@github.com/benjefferies/branch-protection-bot.git master-to-be:master
+        git push https://benjefferies:${{ secrets.PAT_ACCESS_TOKEN }}@github.com/benjefferies/branch-protection-bot.git master-to-be:master
     - name: Toggle "include administrators" branch protection
       uses: ./
       if: always()
       with:
-        access_token: ${{ secrets.ACCESS_TOKEN }}
+        access_token: ${{ secrets.PAT_ACCESS_TOKEN }}
     - name: Force enable "include administrators" branch protection
       uses: ./
       if: always()
       with:
-        access_token: ${{ secrets.ACCESS_TOKEN }}
+        access_token: ${{ secrets.PAT_ACCESS_TOKEN }}
         enforce_admins: true
