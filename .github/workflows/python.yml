@@ -2,9 +2,7 @@ name: Python
 
 on: [push]
 
-permissions:
-  repository-projects: write
-  contents: write
+permissions: write-all
 
 jobs:
   build:
