@@ -1,6 +1,7 @@
 name: Python
 
 on: [push]
+permissions: write-all
 
 jobs:
   build:
